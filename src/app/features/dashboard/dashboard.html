@@ -1,0 +1,67 @@
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Dashboard Overview</h1>
+        <button mat-raised-button color="primary">
+            <mat-icon>download</mat-icon> Report
+        </button>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        @for (stat of stats(); track stat.label) {
+        <mat-card class="p-6 shadow-sm hover:shadow-md transition-shadow dark:bg-gray-900 dark:border-gray-800">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ stat.label }}</p>
+                    <h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ stat.value }}</h3>
+                    <p class="text-sm mt-2" [class.text-green-600]="stat.trend > 0"
+                        [class.text-red-600]="stat.trend < 0">
+                        {{ stat.trend > 0 ? '+' : '' }}{{ stat.trend }}% from last month
+                    </p>
+                </div>
+                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <mat-icon class="text-blue-600 dark:text-blue-400">{{ stat.icon }}</mat-icon>
+                </div>
+            </div>
+        </mat-card>
+        }
+    </div>
+
+    <!-- Charts Section (Deferred for Performance) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 
+          Angular 21 @defer: 
+          Loads the heavy chart component only when it enters the viewport.
+        -->
+        <mat-card class="p-6 dark:bg-gray-900 dark:border-gray-800">
+            <h3 class="text-lg font-semibold mb-4 dark:text-white">Revenue Growth</h3>
+            @defer (on viewport) {
+            <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
+              <span class="text-gray-500 dark:text-gray-400">Chart Loaded</span>
+              <!-- Real Chart Component goes here later -->
+            </div>
+          } @placeholder {
+            <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
+              <mat-spinner diameter="40" class="text-primary"></mat-spinner>
+            </div>
+          } @loading (minimum 500ms) {
+            <div class="h-64 flex items-center justify-center">
+              <span class="text-sm text-gray-500">Loading chart data...</span>
+            </div>
+          }
+        </mat-card>
+
+        <mat-card class="p-6 dark:bg-gray-900 dark:border-gray-800">
+            <h3 class="text-lg font-semibold mb-4 dark:text-white">User Activity</h3>
+            @defer (on viewport) {
+            <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
+              <span class="text-gray-500 dark:text-gray-400">Chart Loaded</span>
+            </div>
+          } @placeholder {
+            <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
+              <mat-spinner diameter="40" class="text-primary"></mat-spinner>
+            </div>
+          }
+        </mat-card>
+    </div>
+</div>

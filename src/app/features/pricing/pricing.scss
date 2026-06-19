@@ -1,0 +1,31 @@
+/* 
+  Minimal SCSS: 
+  We rely on Tailwind for 99% of styling.
+  This file handles specific Material overrides.
+*/
+
+// Custom styling for the slide toggle to match the tailwind theme
+.custom-slide-toggle {
+  // Light mode
+  :host(.mat-mdc-slide-toggle) .mat-mdc-slide-toggle-toggle {
+    background-color: #e5e7eb; // Tailwind gray-200
+  }
+  
+  // Dark mode override (if your app uses a dark theme class)
+  :host-context(.dark-theme) .mat-mdc-slide-toggle-toggle {
+    background-color: #374151; // Tailwind gray-700
+  }
+  
+  // Active state (checked)
+  :host(.mat-mdc-slide-toggle-checked) .mat-mdc-slide-toggle-toggle {
+    background-color: #4f46e5; // Tailwind indigo-600
+  }
+}
+
+// Ensure the Popular card has a glow effect in dark mode
+.mat-mdc-card {
+  &.dark {
+    // If your app adds a 'dark' class to the body or card
+    border-color: #4f46e5 !important;
+  }
+}
